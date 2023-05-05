@@ -1,3 +1,7 @@
+//Extensión utilizada para la escritura de este archivo: "Cypher Query Language" by Jake Boone
+//y "Cypher Query Language Tools for Neoj" by Anthony J. Gatlin, usando VS Code.
+
+
 // Se crea una base de datos llamada "universities"
 CREATE DATABASE universities  
 
@@ -33,3 +37,23 @@ CREATE (f:Faculty {name: 'Facultad de Educacion'})
 CREATE (f:Faculty {name: 'Facultad de Diseño y Comunicacion'})
 CREATE (f:Faculty {name: 'Facultad de Ciencias Agricolas y Ambientales'})
 CREATE (f:Faculty {name: 'Facultad de Ciencias de la Comunicacion'})
+
+//Se crean relaciones PERTENECE_A entre un nodos University con la propiedad name y un nodo 
+//Faculty con la propiedad name para indicar que la universidad cuenta con esa facultad.
+//Relaciones únicamente creadas para prototipado y pruebas del algoritmo.
+MATCH (u:University {name: 'Universidad de San Carlos de Guatemala'}), (f:Faculty {name: 'Facultad de Ingenieria'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad de San Carlos de Guatemala'}), (f:Faculty {name: 'Facultad de Medicina'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad de San Carlos de Guatemala'}), (f:Faculty {name: 'Facultad de Ciencias Agricolas y Ambientales'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad del Valle de Guatemala'}), (f:Faculty {name: 'Facultad de Ingenieria'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad del Valle de Guatemala'}), (f:Faculty {name: 'Facultad de Educacion'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad Panamericana'}), (f:Faculty {name: 'Facultad de Ingenieria'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad InterNaciones'}), (f:Faculty {name: 'Facultad de Ingenieria'})
+CREATE (u)-[:PERTENECE_A]->(f)
+MATCH (u:University {name: 'Universidad Galileo'}), (f:Faculty {name: 'Facultad de Ingenieria'})
+CREATE (u)-[:PERTENECE_A]->(f)
