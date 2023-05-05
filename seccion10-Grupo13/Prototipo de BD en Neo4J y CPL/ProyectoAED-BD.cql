@@ -57,3 +57,10 @@ MATCH (u:University {name: 'Universidad InterNaciones'}), (f:Faculty {name: 'Fac
 CREATE (u)-[:PERTENECE_A]->(f)
 MATCH (u:University {name: 'Universidad Galileo'}), (f:Faculty {name: 'Facultad de Ingenieria'})
 CREATE (u)-[:PERTENECE_A]->(f)
+
+//Se crean índices en las propiedades de las universidades y las facultades para mejorar el rendimiento de las consultas.
+CREATE INDEX states_index FOR (u:University) ON (u.state)
+CREATE INDEX pb_index FOR (u:University) ON (u.provides_becas)
+CREATE INDEX ae_index FOR (u:University) ON (u.admission_exam)
+CREATE INDEX mp_index FOR (u:University) ON (u.monthly_payment)
+CREATE INDEX faculty_index FOR (f:Faculty) ON (f.name)
