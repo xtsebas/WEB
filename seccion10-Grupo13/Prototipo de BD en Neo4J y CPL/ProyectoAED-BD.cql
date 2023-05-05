@@ -64,3 +64,13 @@ CREATE INDEX pb_index FOR (u:University) ON (u.provides_becas)
 CREATE INDEX ae_index FOR (u:University) ON (u.admission_exam)
 CREATE INDEX mp_index FOR (u:University) ON (u.monthly_payment)
 CREATE INDEX faculty_index FOR (f:Faculty) ON (f.name)
+
+
+//Caso de prueba para funcionamiento del algoritmo
+//se realiza una consulta utilizando la sentencia MATCH, la cual devuelve todas las 
+//universidades que cumplen con las condiciones establecidas en la cláusula WHERE: que 
+//pertenezcan a la facultad de ingeniería, que se encuentren en la ciudad de Guatemala, 
+//que ofrezcan becas, que tengan un examen de admisión y que el pago mensual sea menor a 5000.
+MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: 'Facultad de Ingenieria'})
+WHERE 'Ciudad de Guatemala' IN u.states AND u.provides_becas = true AND u.admission_exam = true AND u.monthly_payment < 5000
+RETURN u
