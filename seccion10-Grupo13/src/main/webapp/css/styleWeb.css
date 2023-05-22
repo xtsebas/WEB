@@ -1,3 +1,7 @@
+header{
+    position: relative;
+}
+
 #wavesection{
     width: 100%;
     height: 600px;
@@ -19,6 +23,7 @@
 .container-fluid{
     width: 100%;
     height: 100px;
+
 }
 #inicio{
     width: 100%;
@@ -36,11 +41,34 @@
 }
 
 #options{
-    width: 20%;
+    width: 70%;
+    margin-bottom: 5%;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
     font-size: larger;
 }
 
+#search{
+    margin-left: 0%;
+    margin-right: 0%;
+}
+
 body {
     margin-top: 100px; 
-  }
+    height: 100%;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px; 
+    background-color: #c8c3c3;
+    text-align: center;
+    padding-top: 10px;
+    display: none; 
+}
+
+body.content-filled footer {
+    display: block; 
+}
