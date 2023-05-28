@@ -1,7 +1,7 @@
 /**
  * 
  */
-package dataAccessLayer;
+package main.java.dataAccessLayer;
 
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
@@ -11,12 +11,15 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.TransactionWork;
-import org.neo4j.driver.summary.ResultSummary;
 
 import static org.neo4j.driver.Values.parameters;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.neo4j.driver.types.Node;
+
 /**
  * @author Administrator
  *
@@ -57,82 +60,44 @@ public class EmbeddedNeo4j implements AutoCloseable{
         }
     }
     
-    public LinkedList<String> getActors()
-    {
-    	 try ( Session session = driver.session() )
-         {
-    		 
-    		 
-    		 LinkedList<String> actors = session.readTransaction( new TransactionWork<LinkedList<String>>()
-             {
-                 @Override
-                 public LinkedList<String> execute( Transaction tx )
-                 {
-                     Result result = tx.run( "MATCH (people:Person) RETURN people.name");
-                     LinkedList<String> myactors = new LinkedList<String>();
-                     List<Record> registros = result.list();
-                     for (int i = 0; i < registros.size(); i++) {
-                    	 //myactors.add(registros.get(i).toString());
-                    	 myactors.add(registros.get(i).get("people.name").asString());
-                     }
-                     
-                     return myactors;
-                 }
-             } );
-             
-             return actors;
-         }
-    }
-    
-    public LinkedList<String> getMoviesByActor(String actor)
+    public LinkedList<University> getUniversities(String department, String faculty)
     {
    	 try ( Session session = driver.session() )
         {
    		 
-   		 
-   		 LinkedList<String> actors = session.readTransaction( new TransactionWork<LinkedList<String>>()
+   		 LinkedList<University> Universities = session.readTransaction( new TransactionWork<LinkedList<University>>()
             {
                 @Override
-                public LinkedList<String> execute( Transaction tx )
+                public LinkedList<University> execute( Transaction tx )
                 {
-                    Result result = tx.run( "MATCH (tom:Person {name: \"" + actor + "\"})-[:ACTED_IN]->(actorMovies) RETURN actorMovies.title");
-                    LinkedList<String> myactors = new LinkedList<String>();
+                    Result result = tx.run( "MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: \\\"\" + faculty + \"\\\"}) WHERE \\\"\" + department + \"\\\" RETURN u");
+                    LinkedList<Node> myUnis = new LinkedList<Node>();
                     List<Record> registros = result.list();
-                    for (int i = 0; i < registros.size(); i++) {
-                   	 //myactors.add(registros.get(i).toString());
-                   	 myactors.add(registros.get(i).get("actorMovies.title").asString());
+                    for (Record registro : registros) {
+                        myUnis.add(registro.get("u").asNode());
+                    }
+                    LinkedList<University> resultUniversities = new LinkedList<>();
+                    for (Node node : myUnis) {
+                        String name = node.get("name").asString();
+                        List<Object> statesList = node.get("states").asList();
+                        List<String> states = new ArrayList<>();
+                        for (Object state : statesList) {
+                            states.add(state.toString());
+                        }
+                        boolean providesBecas = node.get("provides_becas").asBoolean();
+                        boolean admissionExam = node.get("admission_exam").asBoolean();
+                        int monthlyPayment = node.get("monthly_payment").asInt();
+
+                        University university = new University(name, (ArrayList<String>) states, providesBecas, admissionExam, monthlyPayment);
+                        resultUniversities.add(university);
                     }
                     
-                    return myactors;
+                    return resultUniversities;
                 }
             } );
             
-            return actors;
+            return Universities;
         }
    }
-    
-    public String insertMovie(String title, int releaseYear, String tagline) {
-    	try ( Session session = driver.session() )
-        {
-   		 
-   		 String result = session.writeTransaction( new TransactionWork<String>()
-   		 
-            {
-                @Override
-                public String execute( Transaction tx )
-                {
-                    tx.run( "CREATE (Test:Movie {title:'" + title + "', released:"+ releaseYear +", tagline:'"+ tagline +"'})");
-                    
-                    return "OK";
-                }
-            }
-   		 
-   		 );
-            
-            return result;
-        } catch (Exception e) {
-        	return e.getMessage();
-        }
-    }
 
 }
