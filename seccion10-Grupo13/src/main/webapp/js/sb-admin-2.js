@@ -76,22 +76,27 @@
 		
 	});
 	
-	//Evento del botón que me devuelve el listado de películas de un determinado actor
-	$("#btn-search-movies-by-actor").click(function(){
+	//Evento del botón que devuelve las universidades
+	$("#searchBt").click(function(){
 				
 		$.ajax( {
 			
 			type: "GET",
-			url: '/seccion10-Grupo13/MoviesByActor?actor_name=' + $('#txt-actor').val(),
-			success: function(data) {
-				//alert("Result" + data.resultado);
-			    var htmlMovieList = '<ul>';
-				$.each(data.peliculas, function(i,item){
-					  htmlMovieList += '<li>' + item + '</li>';
-				});
-				htmlMovieList += '</ul>';
-				$('#div-listado-actores').html("");
-				$('#div-listado-actores').append(htmlMovieList);
+            'url: '/seccion10-Grupo13/MainSearch?faculty=' + encodeURIComponent($('#fac').val()) + '&department=' + encodeURIComponent($('#DEP').val()),
+        success: function(data) {
+
+
+
+
+
+				// //alert("Result" + data.resultado);
+			    // var htmlMovieList = '<ul>';
+				// $.each(data.peliculas, function(i,item){
+				// 	  htmlMovieList += '<li>' + item + '</li>';
+				// });
+				// htmlMovieList += '</ul>';
+				// $('#div-listado-actores').html("");
+				// $('#div-listado-actores').append(htmlMovieList);
 			}
 		} );
 		
