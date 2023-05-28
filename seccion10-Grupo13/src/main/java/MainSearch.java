@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.java.dataAccessLayer.University;
 import org.json.simple.JSONObject;
 
 import dataAccessLayer.EmbeddedNeo4j;
@@ -19,14 +20,14 @@ import org.json.simple.JSONArray;
 /**
  * Servlet implementation class MoviesByActor
  */
-@WebServlet("/MoviesByActor")
-public class MoviesByActor extends HttpServlet {
+@WebServlet("/MainSearch")
+public class MainSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MoviesByActor() {
+    public MainSearch() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,16 +42,18 @@ public class MoviesByActor extends HttpServlet {
 	 	response.setCharacterEncoding("UTF-8");
 	 	JSONObject myResponse = new JSONObject();
 	 	
-	 	JSONArray PeliculasActor = new JSONArray();
-	 	
-	 	String myActor = request.getParameter("actor_name");
+	 	JSONArray UniversidadesFD = new JSONArray();
+
+		 // Parametros principales de busqueda
+	 	String faculty = request.getParameter("faculty");
+		String department = request.getParameter("department");
+
 	 	 try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://18.206.90.235:7687", "neo4j", "test-checkout-labors" ) )
 	        {
-			 	LinkedList<String> myactors = greeter.getMoviesByActor(myActor);
+			 	LinkedList<University> universities = greeter.getUniversities(department, faculty);
 			 	
-			 	for (int i = 0; i < myactors.size(); i++) {
-			 		 //out.println( "<p>" + myactors.get(i) + "</p>" );
-			 		PeliculasActor.add(myactors.get(i));
+			 	for (int i = 0; i < universities.size(); i++) {
+			 		UniversidadesFD.add(universities.get(i));
 			 	}
 	        	
 	        } catch (Exception e) {
@@ -58,8 +61,8 @@ public class MoviesByActor extends HttpServlet {
 				e.printStackTrace();
 			}
 	 	
-	 	myResponse.put("conteo", PeliculasActor.size()); //Guardo la cantidad de actores
-	 	myResponse.put("peliculas", PeliculasActor);
+	 	myResponse.put("conteo", UniversidadesFD.size()); //Guardo la cantidad de actores
+	 	myResponse.put("universidades", UniversidadesFD);
 	 	out.println(myResponse);
 	 	out.flush();  
 	 	

@@ -56,8 +56,4 @@ public class University {
     public void setMonthlyPayment(int monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
     }
-
-    public ArrayList<String> convertStringtoList(String departments){
-
-    }
 }

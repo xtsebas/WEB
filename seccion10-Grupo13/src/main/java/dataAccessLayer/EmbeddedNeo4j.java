@@ -70,7 +70,7 @@ public class EmbeddedNeo4j implements AutoCloseable{
                 @Override
                 public LinkedList<University> execute( Transaction tx )
                 {
-                    Result result = tx.run( "MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: \\\"\" + faculty + \"\\\"}) WHERE \\\"\" + department + \"\\\" IN u.states AND u.provides_becas = true AND u.admission_exam = true AND u.monthly_payment < 5000 RETURN u");
+                    Result result = tx.run( "MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: \\\"\" + faculty + \"\\\"}) WHERE \\\"\" + department + \"\\\" RETURN u");
                     LinkedList<Node> myUnis = new LinkedList<Node>();
                     List<Record> registros = result.list();
                     for (Record registro : registros) {
