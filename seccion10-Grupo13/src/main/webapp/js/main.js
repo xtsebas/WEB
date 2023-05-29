@@ -29,6 +29,13 @@ function runQuery() {
     showIfMatch();
 }
 
+//asi se llaman a las universidades solo que se hace por cada una xd
+//const universidadTitle = document.getElementById('id').innerHTML;
+//const departamentos = document.getElementById('id').innerText;
+//const beca = document.getElementById('id').innerText;
+//const admision = document.getElementById('id').innerText;
+//const mensualidad = document.getElementById('id').innerText;
+
 
 function mainSearch(){
 
