@@ -43,7 +43,7 @@ public class HelloServlet extends HttpServlet {
 		 	JSONArray nombresActores = new JSONArray();
 		 	
 		 	 //try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://localhost:7687", "neo4j", "Test1234" ) )
-		 	try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://18.206.90.235:7687", "neo4j", "test-checkout-labors" ) )
+		 	try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://44.203.107.46:7687", "neo4j", "calculation-exception-contrasts" ) )
 		        {
 				 	LinkedList<String> myactors = greeter.getActors();
 				 	

@@ -48,7 +48,7 @@ public class MainSearch extends HttpServlet {
 	 	String faculty = request.getParameter("faculty");
 		String department = request.getParameter("department");
 
-	 	 try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://18.206.90.235:7687", "neo4j", "test-checkout-labors" ) )
+	 	 try ( EmbeddedNeo4j greeter = new EmbeddedNeo4j( "bolt://44.203.107.46:7687", "neo4j", "calculation-exception-contrasts" ) )
 	        {
 			 	LinkedList<University> universities = greeter.getUniversities(department, faculty);
 			 	

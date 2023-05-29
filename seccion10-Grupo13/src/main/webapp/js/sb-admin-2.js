@@ -82,8 +82,9 @@
 		$.ajax( {
 			
 			type: "GET",
-            'url: '/seccion10-Grupo13/MainSearch?faculty=' + encodeURIComponent($('#fac').val()) + '&department=' + encodeURIComponent($('#DEP').val()),
+            url: '/seccion10-Grupo13/MainSearch?faculty=' + encodeURIComponent($('#fac').val()) + '&department=' + encodeURIComponent($('#DEP').val()),
         success: function(data) {
+          console.log("pitods");
 
 
 
