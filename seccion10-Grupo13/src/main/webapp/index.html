@@ -61,7 +61,7 @@
                 <option value="Chiquimula">Chiquimula</option>
                 <option value="El Progreso">El Progreso</option>
                 <option value="Escuintla">Escuintla</option>
-                <option value="Guatemala">Guatemala</option>
+                <option value="Ciudad de Guatemala">Ciudad de Guatemala</option>
                 <option value="Huehuetenango">Huehuetenango</option>
                 <option value="Izabal">Izabal</option>
                 <option value="Jalapa">Jalapa</option>
@@ -81,7 +81,7 @@
             </form>
           </div>
           <div class="col">
-            <input type="submit" value="Search" class="btn btn-light" id="searchBt"/>
+            <button type="submit" value="Search" class="btn btn-light" id="searchBt" onclick="runQuery()">Search</button>
           </div>
         </div>
       </div>
@@ -433,11 +433,9 @@
     <script>
       const botonMostrar = document.getElementById("searchBt");
       const elementoOculto = document.getElementById("options");
-      const elementoOculto2 = document.getElementById("cards");
 
       botonMostrar.addEventListener("click", () => {
         elementoOculto.style.display = "block";
-        elementoOculto2.style.display = "block";
         
       });
     </script>

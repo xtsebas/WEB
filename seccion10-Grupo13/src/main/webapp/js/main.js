@@ -2,20 +2,26 @@ $(document).ready(function(){
     mainSearch();
 });
 
-const universityArray = []
-
 function runQuery() {
+    const arrayObjetos = [
+        { nombre: 'Juan', edad: 25 },
+        { nombre: 'María', edad: 30 },
+        { nombre: 'Pedro', edad: 28 },
+        { nombre: 'Ana', edad: 32 },
+        { nombre: 'Luis', edad: 27 }
+    ];
+    let universityArray = []
     const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
     const facultyName = document.getElementById('fac').value;
     const depName = document.getElementById('DEP').value;
-    const query = `MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u`;
+    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u`;
 
     const session = driver.session();
 
     session.run(query)
         .then(result => {
             result.records.forEach(record => {
-                const universityNode = record.get('u');
+                let universityNode = record.get('u');
                 universityArray.push(universityNode);
             });
         })
@@ -26,7 +32,9 @@ function runQuery() {
             session.close();
             driver.close();
         });
-    showIfMatch();
+    console.log(universityArray);
+    showCorrectCards(universityArray);
+
 }
 
 //asi se llaman a las universidades solo que se hace por cada una xd
@@ -50,7 +58,17 @@ function filter(){
 
 };
 
-function showIfMatch(){
+function showCorrectCards(value) {
+    const arrayU = ['USAC', 'URL', 'MARRO', 'GALILEO', 'MARIANO', 'UVG', 'UNIS', 'UDO', 'PANA', 'VINCI', 'MESO', 'INTER'];
+    const arrayu = ['usac', 'url', 'marro', 'galileo', 'mariano', 'uvg', 'unis', 'udo', 'pana', 'vinci', 'meso', 'inter'];
 
-
+    value.forEach((element) => {
+        console.log(element.name);
+        for (let i = 0; i < arrayu.length; i++) {
+            if (document.getElementById(arrayU[i]).innerText === element.name) {
+                document.getElementById(arrayu[i]).style.display = "block";
+            }
+        }
+    });
 }
+
