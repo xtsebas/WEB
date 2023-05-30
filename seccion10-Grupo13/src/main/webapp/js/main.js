@@ -3,37 +3,41 @@ $(document).ready(function(){
 });
 
 function runQuery() {
-    const arrayObjetos = [
-        { nombre: 'Juan', edad: 25 },
-        { nombre: 'María', edad: 30 },
-        { nombre: 'Pedro', edad: 28 },
-        { nombre: 'Ana', edad: 32 },
-        { nombre: 'Luis', edad: 27 }
-    ];
+   
     let universityArray = []
+    
     const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
     const facultyName = document.getElementById('fac').value;
     const depName = document.getElementById('DEP').value;
-    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u`;
+    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u.name`;
 
     const session = driver.session();
 
     session.run(query)
-        .then(result => {
-            result.records.forEach(record => {
-                let universityNode = record.get('u');
-                universityArray.push(universityNode);
-            });
-        })
-        .catch(error => {
-            console.error('Error executing Cypher query', error);
-        })
-        .finally(() => {
-            session.close();
-            driver.close();
+    .then(result => {
+        result.records.forEach(record => {
+            let universityName = record.get('u.name'); // Acceder a 'u.name' en lugar de 'u'
+            universityArray.push(universityName);
+            console.log("si");
+            console.log(universityName);
+            console.log("si");
         });
+        console.log(universityArray);
+        showCorrectCards(universityArray);
+    })
+    .catch(error => {
+        console.error('Error executing Cypher query', error);
+    })
+    .finally(() => {
+        session.close();
+        driver.close();
+    });
+
+    const universityArrayI = universityArray.reverse();
+
+    console.log(universityArrayI);
     console.log(universityArray);
-    showCorrectCards(universityArray);
+    showCorrectCards(universityArrayI);
 
 }
 
@@ -62,13 +66,14 @@ function showCorrectCards(value) {
     const arrayU = ['USAC', 'URL', 'MARRO', 'GALILEO', 'MARIANO', 'UVG', 'UNIS', 'UDO', 'PANA', 'VINCI', 'MESO', 'INTER'];
     const arrayu = ['usac', 'url', 'marro', 'galileo', 'mariano', 'uvg', 'unis', 'udo', 'pana', 'vinci', 'meso', 'inter'];
 
-    value.forEach((element) => {
+    for (let i = value.length - 1; i >= 0; i--) {
+        const element = value[i];
         console.log(element.name);
-        for (let i = 0; i < arrayu.length; i++) {
-            if (document.getElementById(arrayU[i]).innerText === element.name) {
-                document.getElementById(arrayu[i]).style.display = "block";
+        for (let j = 0; j < arrayu.length; j++) {
+            if (document.getElementById(arrayU[j]).innerText === element) {
+                document.getElementById(arrayu[j]).style.display = "block";
             }
         }
-    });
+    }
 }
 
