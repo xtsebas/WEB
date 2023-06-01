@@ -10,7 +10,7 @@ let universityArray = []
 function runQuery() {
     hideAgain(universityArray)
     universityArray.length = 0
-    const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
+    const driver = neo4j.driver('bolt+s://2dbb53ee02934126d1c7f197927b3059.neo4jsandbox.com:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
     const facultyName = document.getElementById('fac').value;
     const depName = document.getElementById('DEP').value;
     const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u.name`;
@@ -69,7 +69,7 @@ function filter(){
         }
     }
 
-    const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
+    const driver = neo4j.driver('bolt+s://2dbb53ee02934126d1c7f197927b3059.neo4jsandbox.com:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
     console.log(newQuery)
     const session = driver.session();
     session.run(newQuery)
