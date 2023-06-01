@@ -14,7 +14,7 @@
 
   <body>
 
-    <header style="position: fixed; top: 0; width: 100%;">
+    <header style="position: fixed; top: 0; width: 100%;" class="fixed-header">
       <div class="container-fluid bg-success d-flex justify-content-center">
         <p class="justify-content-center text-light" style="font-size: 300%;">UNIVERSITY KNOWLEDGE</p>
       </div>
@@ -28,11 +28,11 @@
 
     <main>
       <p></p>
-      <div id="inicio"><p>BUSQUEDA DE UNIVERSIDAD</p></div>
+      <div id="inicio" class="d-flex justify-content-center"><p class="custom-font">BUSQUEDA DE UNIVERSIDAD</p></div>
 
-      <div id="search" class="container-fluid bg-gradient pr-0" style="margin-bottom: 0%; margin-top: 0.5%;">
+      <div id="search" class="container-fluid pr-0 backgroundNewWhite" style="margin-bottom: 1%;">
         <div class="row ">
-          <div class="col">
+          <div class="col mt-4">
             <form action="#">
               <label for="FACULTAD">FACULTAD</label>
               <select name="facultades" id="fac">
@@ -51,7 +51,7 @@
               </select>
             </form>
           </div>
-          <div class="col">
+          <div class="col mt-4">
             <form action="#">
               <label for="DEP">DEPARTAMENTO</label>
               <select name="departamento" id="DEP">
@@ -80,21 +80,20 @@
               </select>
             </form>
           </div>
-          <div class="col">
+          <div class="col mt-4">
             <button type="submit" value="Search" class="btn btn-light" id="searchBt" onclick="runQuery()">Search</button>
           </div>
         </div>
       </div>
     </main>
 
-    <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
-      <div class="row mb-1">
+    <div class="container-fluid"  style="padding-left: 0; padding-right: 0;">
+      <div class="row mb-1 ml-2">
         <div class="col-4 mr-0">
           <section id="options" class="options" style="display: none;">
             <section id="characteristics">
-              
-              <form action="#">
-                <label for="mensualidad">Mensualidad</label>
+              <form action="#" >
+                <label for="mensualidad" class="mt-5">Mensualidad</label>
                 <section name="mensualidad" id="men">
                   <span id="valorRango"></span>
                   <input type="range" id="rango" name="rango" min="1" max="10000" step="1">
@@ -103,9 +102,9 @@
               <script>
                 const rango = document.getElementById("rango");
                 const valorRango = document.getElementById("valorRango");
-              
+
                 valorRango.innerHTML = rango.value;
-              
+
                 rango.addEventListener("input", () => {
                   valorRango.innerHTML = rango.value;
                   let posicion = ((rango.value - rango.min) / (rango.max - rango.min)) * 100;
@@ -118,13 +117,13 @@
               <label for="examen">Universidad con examen de admision</label>
               <br>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off">
                 <label class="btn btn-outline-primary" for="btnradio1">Si</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="-1" autocomplete="off" checked>
                 <label class="btn btn-outline-primary" for="btnradio2">No importa</label>
       
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="0" autocomplete="off">
                 <label class="btn btn-outline-primary" for="btnradio3">No</label>
               </div>
       
@@ -133,26 +132,26 @@
               <label for="beca">Universidad con opcion a beca</label>
               <br>
               <div class="btn-group2" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btn" id="btn" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btn" id="btn"  value="1" autocomplete="off" >
                 <label class="btn btn-outline-primary" for="btn">Si</label>
               
-                <input type="radio" class="btn-check" name="btn" id="btn2" autocomplete="off">
+                <input type="radio" class="btn-check" name="btn" id="btn2" value="-1" autocomplete="off" checked>
                 <label class="btn btn-outline-primary" for="btn2">No importa</label>
       
-                <input type="radio" class="btn-check" name="btn" id="btn3" autocomplete="off">
+                <input type="radio" class="btn-check" name="btn" id="btn3" value="0" autocomplete="off">
                 <label class="btn btn-outline-primary" for="btn3">No</label>
               </div>
             </section>
             <div class="col">
-              <button type="submit" value="Filtro" class="btn btn-light" id="filtro"> FILTRO</button>
+              <button type="submit" value="Filtro" class="btn btn-light" id="filtro" onclick="filter()"> FILTRO</button>
             </div>
           </section>
         </div>
         <div class="col-8 ml-0">
           <section id="cards">
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(7, 42, 165); display: none;" id="usac">
+            <div class="card mb-3 card backgroundBlue text-white" style="max-width: 1000px; display: none;" id="usac">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/Usac_logo.png" class="img-fluid rounded-start" style="height: 260px;">
                 </div>
                 <div class="col-md-8">
@@ -185,12 +184,12 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: yellow; display: none;" id="url">
+            <div class="card mb-3 backgroundBlueSky text-white" style="max-width: 1000px; display: none;" id="url">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/landivar.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8  " >
                   <div class="card-body">
                     <h5 class="card-title" id="URL">Universidad Rafael Landivar</h5>
                     <p class="card-text">Departamentos:</p>
@@ -207,10 +206,10 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(255, 0, 0); display: none;" id="marro">
+            <div class="card mb-3  backgroundRed text-white" style="max-width: 1000px; background-color: rgb(255, 0, 0); display: none;" id="marro">
               <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../webapp/img/marro.jpg" class="img-fluid rounded-start" style="height: 240px; margin-top: 3%; margin-left: 15%;">
+                <div class="col-md-4 d-flex align-items-center">
+                  <img src="../webapp/img/marro.jpg" class="img-fluid rounded-start img-cards" style="height: 240px; margin-top: 3%">
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -227,9 +226,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: chocolate; display: none;" id="galileo">
+            <div class="card mb-3 backgroundBrown text-white" style="max-width: 1000px; background-color: chocolate; display: none;" id="galileo">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/galileo.jpg" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -247,9 +246,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(255, 64, 0); display: none;" id="mariano">
+            <div class="card mb-3 backgroundOrange text-white" style="max-width: 1000px; background-color: rgb(255, 64, 0); display: none;" id="mariano">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/umg.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -276,12 +275,12 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: greenyellow; display: none;" id="uvg">
+            <div class="card mb-3 backgroundGreen text-white" style="max-width: 1000px; display: none;" id="uvg">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/uvg.jpg" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 ">
                   <div class="card-body">
                     <h5 class="card-title" id="UVG">Universidad del Valle de Guatemala</h5>
                     <p class="card-text">Departamentos:</p>
@@ -298,9 +297,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(249, 93, 93); display: none;" id="unis">
+            <div class="card mb-3 text-white" style="max-width: 1000px; background-color: rgb(249, 93, 93); display: none;" id="unis">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/unis.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -319,9 +318,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(143, 19, 225); display: none;" id="udo">
+            <div class="card mb-3 backgroundRed text-white" style="max-width: 1000px; background-color: rgb(143, 19, 225); display: none;" id="udo">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/udo.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -341,12 +340,12 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(0, 179, 244); display: none;" id="pana">
+            <div class="card mb-3 backgroundBlueSky text-white" style="max-width: 1000px; background-color: rgb(0, 179, 244); display: none;" id="pana">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/pana.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 ba">
                   <div class="card-body">
                     <h5 class="card-title" id="PANA">Universidad Panamericana</h5>
                     <p class="card-text">Departamentos:</p>
@@ -361,9 +360,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(97, 51, 158); display: none;" id="vinci">
+            <div class="card mb-3 backgroundBlue text-white" style="max-width: 1000px; display: none;" id="vinci">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/vinci.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -381,9 +380,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(95, 249, 93); display: none;" id="meso">
+            <div class="card mb-3 backgroundGreen text-white" style="max-width: 1000px; display: none;" id="meso">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/meso.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
@@ -405,9 +404,9 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 1000px; background-color: rgb(195, 184, 184); display: none;" id="inter">
+            <div class="card mb-3 text-white backgroundWhite" style="max-width: 1000px; background-color: rgb(195, 184, 184); display: none;" id="inter">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-center">
                   <img src="../webapp/img/inter.png" class="img-fluid rounded-start" style="height: 240px;">
                 </div>
                 <div class="col-md-8">
