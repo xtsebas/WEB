@@ -1,43 +1,28 @@
 $(document).ready(function(){
-    mainSearch();
+
 });
 
-function runQuery() {
-   
-    let universityArray = []
-    const universityNodesAsObj = []; //Array de nodos en forma de objetos.
+const arrayU = ['USAC', 'URL', 'MARRO', 'GALILEO', "MARIANO", 'UVG', 'UNIS', 'UDO', 'PANA', 'VINCI', 'MESO', 'INTER'];
+const arrayu = ['usac', 'url', 'marro', 'galileo', "mariano", 'uvg', 'unis', 'udo', 'pana', 'vinci', 'meso', 'inter'];
+const universityNodesAsObj = []; //Array de nodos en forma de objetos.
+let universityArray = []
 
-    
+function runQuery() {
+    hideAgain(universityArray)
+    universityArray.length = 0
     const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
     const facultyName = document.getElementById('fac').value;
     const depName = document.getElementById('DEP').value;
-    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u.name, u.provides_becas, u.admission_exam, u.monthly_payment`;
+    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states RETURN u.name`;
 
     const session = driver.session();
     session.run(query)
     .then(result => {
         result.records.forEach(record => {
             let universityName = record.get('u.name'); // Acceder a 'u.name' en lugar de 'u'
-            let universityScholarShip = record.get('u.provides_becas');
-            let universityExam = record.get('u.admission_exam');
-            let universityMP = record.get('u.monthly_payment'); //Variable que es usada para verificar si es un objeto y extraer el valor entero en la variable monthlyPayment
-            let monthlyPayment;
-
-            if (typeof universityMP === 'object' && 'low' in universityMP && 'high' in universityMP) {
-            // Si es una representación de Integer
-            monthlyPayment = universityMP.low || universityMP.high;
-            } else {
-            // Si es un número regular
-            monthlyPayment = universityMP;
-            }
-
-            let universityObj = [{name: universityName, scholarship: universityScholarShip, admission_exam: universityExam, monthly_payment: monthlyPayment }]
-            universityNodesAsObj.push(universityObj);
             universityArray.push(universityName); //Array para aparición de las cards
 
         });
-        console.log(universityNodesAsObj);
-        console.log(universityArray);
         showCorrectCards(universityArray);
     })
     .catch(error => {
@@ -48,27 +33,65 @@ function runQuery() {
         driver.close();
     });
 
-    const universityArrayI = universityArray.reverse();
-    console.log(universityArrayI);
-    showCorrectCards(universityArrayI);
 
 }
 
-//asi se llaman a las universidades solo que se hace por cada una xd
-//const universidadTitle = document.getElementById('id').innerHTML;
-//const departamentos = document.getElementById('id').innerText;
-//const beca = document.getElementById('id').innerText;
-//const admision = document.getElementById('id').innerText;
-//const mensualidad = document.getElementById('id').innerText;
-
 function filter(){
+    hideAgain(universityArray)
+    let universityArrayFilter = []
+    const facultyName = document.getElementById('fac').value;
+    const depName = document.getElementById('DEP').value;
+    const query = `use universities MATCH (u:University)-[:PERTENECE_A]->(f:Faculty {name: '${facultyName}'}) WHERE '${depName}' IN u.states`;
+    let newQuery = ``;
+    let referencePrice = parseInt(document.getElementById('valorRango').innerHTML)
+    let referenceScholar = document.querySelector('input[name="btn"]:checked').value;
+    let referenceAdmission = document.querySelector('input[name="btnradio"]:checked').value;
 
+    console.log(referenceAdmission)
+    console.log(referenceScholar)
+
+    let BrefeScholar = booleanGetter(referenceScholar)
+    let BrefAdmission = booleanGetter(referenceAdmission)
+
+    console.log(BrefeScholar)
+    console.log(BrefAdmission)
+
+
+    if(referenceAdmission == '-1' && referenceScholar == '-1'){
+        newQuery = query + ` AND u.monthly_payment < `+referencePrice+` RETURN u.name`;
+    }else{
+        if(referenceAdmission != '-1' && referenceScholar != '-1'){
+            newQuery = query + ` AND u.monthly_payment < `+referencePrice+` AND u.admission_exam = `+BrefAdmission+` AND u.provides_becas = `+BrefeScholar+` RETURN u.name`;
+        }else if(referenceScholar != '-1'){
+            newQuery = query + ` AND u.monthly_payment < `+referencePrice+` AND u.provides_becas = `+BrefeScholar+` RETURN u.name`;
+        }else if(referenceAdmission != '-1'){
+            newQuery = query + ` AND u.monthly_payment < `+referencePrice+` AND u.admission_exam = `+BrefAdmission+` RETURN u.name`;
+        }
+    }
+
+    const driver = neo4j.driver('bolt://44.203.107.46:7687', neo4j.auth.basic('neo4j', 'calculation-exception-contrasts'));
+    console.log(newQuery)
+    const session = driver.session();
+    session.run(newQuery)
+        .then(result => {
+            result.records.forEach(record => {
+                let universityName = record.get('u.name'); // Acceder a 'u.name' en lugar de 'u'
+                universityArrayFilter.push(universityName); //Array para aparición de las cards
+
+            });
+            console.log(universityArrayFilter)
+            showCorrectCards(universityArrayFilter);
+        })
+        .catch(error => {
+            console.error('Error executing Cypher query', error);
+        })
+        .finally(() => {
+            session.close();
+            driver.close();
+        });
 };
 
 function showCorrectCards(value) {
-    const arrayU = ['USAC', 'URL', 'MARRO', 'GALILEO', "MARIANO", 'UVG', 'UNIS', 'UDO', 'PANA', 'VINCI', 'MESO', 'INTER'];
-    const arrayu = ['usac', 'url', 'marro', 'galileo', "mariano", 'uvg', 'unis', 'udo', 'pana', 'vinci', 'meso', 'inter'];
-
     for (let i = value.length - 1; i >= 0; i--) {
         const element = value[i];
         for (let j = 0; j < arrayu.length; j++) {
@@ -77,5 +100,25 @@ function showCorrectCards(value) {
             }
         }
     }
+}
+
+function hideAgain(value){
+    for (let i = value.length - 1; i >= 0; i--) {
+        const element = value[i];
+        for (let j = 0; j < arrayu.length; j++) {
+            if (document.getElementById(arrayU[j]).innerText === element) {
+                document.getElementById(arrayu[j]).style.display = "none";
+            }
+        }
+    }
+}
+
+booleanGetter = (cadena) => {
+    let answer = true
+    if(cadena === '0'){
+        answer = false
+    }
+
+    return answer
 }
 
